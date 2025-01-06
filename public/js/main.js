@@ -1,16 +1,61 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements with console.log for debugging
+document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Content Loaded');
-    
+
     const navLinks = document.querySelectorAll('.nav-menu a');
     const loadingIndicator = document.querySelector('.loading');
     const frontendLog = document.querySelector('.frontend-log .log-content');
-    
+
     console.log('Frontend Log Element:', frontendLog); // Debug
 
-    // Navigation handling
+    // Services Array
+    const services = [
+        { name: 'user', display: 'A | User Portal', ip: '127.0.0.1' },
+        { name: 'database', display: 'B | Database', ip: '127.0.0.2' },
+        { name: 'metrics', display: 'C | Metrics Console', ip: '127.0.0.3' },
+        { name: 'company', display: 'D | Company IO', ip: '127.0.0.4' },
+        { name: 'parser', display: 'E | Parser', ip: '127.0.0.5' },
+        { name: 'communication', display: 'F | Communication', ip: '127.0.0.6' },
+        { name: 'security', display: 'Z | Security Module', ip: '127.0.0.7' }
+    ];
+
+    // Update Service Status Function
+    const updateServiceStatus = async () => {
+        for (const service of services) {
+            const serviceElement = document.querySelector(`[data-service="${service.name}"]`);
+            if (!serviceElement) continue;
+
+            try {
+                const response = await fetch(`/api/${service.name}/health`);
+                if (response.ok) {
+                    // Service is CONNECTED
+                    serviceElement.querySelector('.status-indicator').classList.remove('status-blue', 'status-red');
+                    serviceElement.querySelector('.status-indicator').classList.add('status-green');
+                    serviceElement.querySelector('span').textContent = 'CONNECTED';
+                } else {
+                    // Service is ONLINE but not CONNECTED
+                    serviceElement.querySelector('.status-indicator').classList.remove('status-green', 'status-red');
+                    serviceElement.querySelector('.status-indicator').classList.add('status-blue');
+                    serviceElement.querySelector('span').textContent = 'ONLINE';
+                }
+            } catch {
+                // Service is OFFLINE
+                serviceElement.querySelector('.status-indicator').classList.remove('status-green', 'status-blue');
+                serviceElement.querySelector('.status-indicator').classList.add('status-red');
+                serviceElement.querySelector('span').textContent = 'OFFLINE';
+            }
+
+            // Always display the IP address
+            serviceElement.querySelector('.service-ip').textContent = `IP: ${service.ip}`;
+        }
+    };
+
+    // Call and Schedule Updates
+    updateServiceStatus();
+    setInterval(updateServiceStatus, 5000); // Update every 5 seconds
+
+    // Navigation Handling
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             const section = this.dataset.section;
             console.log('Nav clicked:', section); // Debug
@@ -21,13 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event Logging System
     const EventLogger = {
         logFrontendEvent: (action, status = 'info') => {
-            console.log('Attempting to log frontend event:', action); // Debug
+            console.log(`[FRONTEND] ${action}`); // Debug
             const entry = document.createElement('div');
             entry.className = `log-entry ${status}`;
             entry.innerHTML = `
                 <span>${new Date().toLocaleTimeString()}</span>
                 <span>${action}</span>
-                <span>${status}</span>
+                <span>${status.toUpperCase()}</span>
             `;
             if (frontendLog) {
                 frontendLog.insertBefore(entry, frontendLog.firstChild);
@@ -37,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         logServiceEvent: (service, message, status = 'info') => {
-            console.log('Logging service event:', service, message); // Debug
+            console.log(`[SERVICE] ${service}: ${message}`); // Debug
             const serviceLog = document.querySelector(`[data-service="${service}"] .event-log`);
             if (serviceLog) {
                 const entry = document.createElement('div');
@@ -45,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 entry.innerHTML = `
                     <span>${new Date().toLocaleTimeString()}</span>
                     <span>${message}</span>
-                    <span>${status}</span>
+                    <span>${status.toUpperCase()}</span>
                 `;
                 serviceLog.insertBefore(entry, serviceLog.firstChild);
             }
@@ -54,43 +99,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle navigation with loading state
     function handleNavigation(section) {
-        console.log('Handling navigation:', section); // Debug
-        showLoading();
-        
-        if (section === 'Events') {
-            console.log('Triggering event simulation'); // Debug
-            simulateSignupFlow();
+        console.log(`[NAVIGATION] Switching to section: ${section}`); // Debug
+
+        // Hide all sections
+        const allSections = document.querySelectorAll('.grid-container');
+        allSections.forEach(sec => sec.style.display = 'none');
+
+        // Show the active section
+        const activeSection = document.querySelector(`.grid-container.${section.toLowerCase()}-grid`);
+        if (activeSection) {
+            activeSection.style.display = 'block';
+        } else {
+            console.error(`[NAVIGATION] Section "${section}" not found.`);
         }
-        
-        setTimeout(() => {
-            hideLoading();
-            updateContent(section);
-        }, 1000);
-    }
-
-    // Simulate signup flow
-    function simulateSignupFlow() {
-        console.log('Starting signup flow simulation'); // Debug
-        
-        // Immediately log the first event
-        EventLogger.logFrontendEvent('User initiated signup', 'info');
-        
-        const events = [
-            { time: 1000, service: 'user', message: 'Validating user data', status: 'info' },
-            { time: 2000, service: 'database', message: 'Creating user record', status: 'success' },
-            { time: 3000, service: 'communication', message: 'Sending welcome email', status: 'info' },
-            { time: 4000, type: 'frontend', message: 'Signup completed successfully', status: 'success' }
-        ];
-
-        events.forEach(event => {
-            setTimeout(() => {
-                if (event.type === 'frontend') {
-                    EventLogger.logFrontendEvent(event.message, event.status);
-                } else {
-                    EventLogger.logServiceEvent(event.service, event.message, event.status);
-                }
-            }, event.time);
-        });
     }
 
     function showLoading() {
@@ -101,10 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingIndicator.style.display = 'none';
     }
 
-    function updateContent(section) {
-        console.log('Updating content for section:', section);
-    }
-
-    // Initial simulation (optional)
-    // setTimeout(simulateSignupFlow, 1000);
+    // Initial Updates (optional logging for starting state)
+    EventLogger.logFrontendEvent('Application initialized and service status updates started', 'info');
 });
