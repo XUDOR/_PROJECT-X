@@ -12,10 +12,10 @@ body {
   flex-direction: column;
   background-color: #20232A;
   color: #FFFFFA;
-  overflow-x: hidden; /* Prevents horizontal scrolling */
-  width: 100%;       /* Ensures full width */
-  max-width: 100%;   /* Prevents overflow */
-  position: relative; /* For proper positioning context */
+  overflow-x: hidden; /* Added this line */
+  width: 100%;        /* Added this line */
+  max-width: 100%;    /* Added this line */
+  position: relative; /* Added this line */
 }
 
 /* Header styles */
