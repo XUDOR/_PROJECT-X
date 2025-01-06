@@ -18,13 +18,13 @@ const URLS = {
   BASE: ENV.PROJECT_X_URL,
   SECURITY: ENV.PROJECT_Z_URL,
   API: {
-    user: `${ENV.PROJECT_X_URL}/api`,
-    jobs: `${ENV.PROJECT_X_URL}/api`,
-    metrics: `${ENV.PROJECT_X_URL}/api`,
-    parser: `${ENV.PROJECT_X_URL}/api`,
-    database: `${ENV.PROJECT_X_URL}/api`,
-    communication: `${ENV.PROJECT_X_URL}/api`,
-    security: `${ENV.PROJECT_Z_URL}/api`
+    user: 'http://localhost:3001',         // User Portal
+    jobs: 'http://localhost:3002',         // Jobs Service
+    metrics: 'http://localhost:3003',      // Metrics Console
+    parser: 'http://localhost:3004',       // Parser Service
+    database: 'http://localhost:3005',     // Database Service
+    communication: 'http://localhost:3006',// Communication Service
+    security: `${ENV.PROJECT_Z_URL}/api`   // Security Service
   },
   ENDPOINTS: {
     health: '/health',
