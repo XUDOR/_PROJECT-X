@@ -1,17 +1,18 @@
 // src/routes/mainRoutes.js
 const express = require('express');
 const { forwardRequest } = require('../utils/interServiceUtils');
+const { SERVICE_NAMES, URLS } = require('../../config/const');
 
 const router = express.Router();
 
 // Health Check
 router.get('/health', async (req, res) => {
   try {
-    const services = ['user', 'jobs', 'metrics'];
+    const services = Object.values(SERVICE_NAMES);
     const healthStatuses = await Promise.all(
       services.map(async (service) => {
         try {
-          const data = await forwardRequest(service, '/health');
+          const data = await forwardRequest(service, URLS.ENDPOINTS.health);
           return { service, status: 'UP', details: data };
         } catch {
           return { service, status: 'DOWN' };

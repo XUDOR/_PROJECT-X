@@ -1,16 +1,16 @@
 // src/utils/interServiceUtils.js
 const axios = require('axios');
-
-const routesMap = {
-  user: 'http://localhost:3001/api',
-  jobs: 'http://localhost:3004/api',
-  metrics: 'http://localhost:3003/api',
-};
+const { URLS, CONFIG } = require('../../config/const');
 
 async function forwardRequest(service, endpoint, method = 'GET', data = {}) {
-  const url = `${routesMap[service]}${endpoint}`;
+  const url = `${URLS.API[service]}${endpoint}`;
   try {
-    const response = await axios({ method, url, data });
+    const response = await axios({ 
+      method, 
+      url, 
+      data,
+      timeout: CONFIG.TIMEOUT 
+    });
     return response.data;
   } catch (error) {
     console.error(`Error forwarding request to ${service}:`, error.message);
