@@ -12,38 +12,138 @@
         <h1>_PROJECT-X | Controller</h1>
         <nav class="nav-menu">
             <ul>
-                <li><a href="#" data-section="Data Section 1">Data Section 1</a></li>
-                <li><a href="#" data-section="Data Section 2">Data Section 2</a></li>
-                <li><a href="#" data-section="Data Section 3">Data Section 3</a></li>
+                <li><a href="#" data-section="Services">Services</a></li>
+                <li><a href="#" data-section="Events">Events</a></li>
+                <li><a href="#" data-section="Logs">Logs</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
+        <!-- Frontend Activity Panel -->
+        <div class="grid-container frontend-grid">
+            <div class="grid-item">
+                <h2 class="titleTag">Frontend Activity</h2>
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="frontend-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Events will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
         <div class="grid-container">
-            <div class="grid-item">
+            <div class="grid-item" data-service="user">
                 <h2 class="titleTag">A | User Portal</h2>
-                
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="event-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Service events will be inserted here -->
+                    </div>
+                </div>
             </div>
-            <div class="grid-item">
+            <div class="grid-item" data-service="database">
                 <h2 class="titleTag">B | Database</h2>
-                
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="event-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Service events will be inserted here -->
+                    </div>
+                </div>
             </div>
-            <div class="grid-item">
+            <div class="grid-item" data-service="metrics">
                 <h2 class="titleTag">C | Metrics Console</h2>
-               
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="event-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Service events will be inserted here -->
+                    </div>
+                </div>
             </div>
-            <div class="grid-item">
+            <div class="grid-item" data-service="company">
                 <h2 class="titleTag">D | Company IO</h2>
-                
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="event-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Service events will be inserted here -->
+                    </div>
+                </div>
             </div>
-            <div class="grid-item">
+            <div class="grid-item" data-service="parser">
                 <h2 class="titleTag">E | Parser</h2>
-                
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="event-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Service events will be inserted here -->
+                    </div>
+                </div>
             </div>
-            <div class="grid-item">
+            <div class="grid-item" data-service="communication">
                 <h2 class="titleTag">F | Communication</h2>
-                
+                <div class="service-status">
+                    <div class="status-indicator status-up"></div>
+                    <span>ACTIVE</span>
+                </div>
+                <div class="event-log">
+                    <div class="log-header">
+                        <span>Time</span>
+                        <span>Message</span>
+                        <span>Status</span>
+                    </div>
+                    <div class="log-content">
+                        <!-- Service events will be inserted here -->
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -54,6 +154,6 @@
 
     <div class="loading">Loading...</div>
     
-    <script src="js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>

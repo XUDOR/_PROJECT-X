@@ -19,7 +19,6 @@ header {
   background-color: #707069;
   color: #FCFBF2;
   padding: 1rem;
-  
   text-align: left;
 }
 
@@ -60,9 +59,6 @@ main {
   font-weight: lighter;
 }
 
-
-
-
 /* Grid system */
 .grid-container {
   display: grid;
@@ -71,27 +67,88 @@ main {
   margin-bottom: 2rem;
 }
 
-/* Tablet breakpoint */
-@media (min-width: 768px) {
-  .grid-container {
-      grid-template-columns: repeat(2, 1fr);  /* 2 columns for tablets */
-  }
-}
-
-/* Desktop breakpoint */
-@media (min-width: 1024px) {
-  .grid-container {
-      grid-template-columns: repeat(3, 1fr);  /* 3 columns for desktop */
-  }
-}
-
 .grid-item {
   background-color: #444340;
   padding: 2rem;
   min-height: 200px;
-  
 }
 
+/* Frontend monitoring specific styles */
+.frontend-grid {
+  margin-bottom: 1rem;
+}
+
+.frontend-grid .grid-item {
+  background-color: #2C2C2A;
+}
+
+/* Service status styles */
+.service-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-up {
+  background-color: #4CAF50;
+}
+
+.status-down {
+  background-color: #f44336;
+}
+
+/* Event logging styles */
+.event-log {
+  margin-top: 1rem;
+  font-family: monospace;
+  font-size: 0.9em;
+  height: calc(100% - 3rem);
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.log-header {
+  display: grid;
+  grid-template-columns: 100px 1fr 80px;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+}
+
+.log-entry {
+  display: grid;
+  grid-template-columns: 100px 1fr 80px;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid #829D9E;
+  margin-bottom: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.log-entry:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.log-entry.success {
+  border-left-color: #4CAF50;
+}
+
+.log-entry.error {
+  border-left-color: #f44336;
+}
+
+.log-entry.warning {
+  border-left-color: #ff9800;
+}
 
 /* Footer styles */
 footer {
@@ -116,4 +173,21 @@ footer {
   padding: 1rem 2rem;
   border-radius: 4px;
   z-index: 1000;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns for tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);  /* 3 columns for desktop */
+  }
+  
+  .frontend-grid {
+    grid-template-columns: 1fr;  /* Frontend grid remains full width */
+  }
 }

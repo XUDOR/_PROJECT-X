@@ -12,7 +12,18 @@ const { ENV, CONFIG } = require('../config/const');
 const app = express();
 
 // Security Middlewares
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      connectSrc: ["'self'"]
+    }
+  }
+}));
+
 app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') || '*', credentials: true }));
 app.use(express.json({ limit: CONFIG.REQUEST_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: CONFIG.REQUEST_LIMIT }));

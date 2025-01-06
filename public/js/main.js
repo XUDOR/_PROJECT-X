@@ -1,52 +1,110 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // DOM Elements
-  const navLinks = document.querySelectorAll('.nav-menu a');
-  const loadingIndicator = document.querySelector('.loading');
-  
-  // Navigation handling
-  navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const section = this.dataset.section;
-          handleNavigation(section);
-      });
-  });
+    // DOM Elements with console.log for debugging
+    console.log('DOM Content Loaded');
+    
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    const loadingIndicator = document.querySelector('.loading');
+    const frontendLog = document.querySelector('.frontend-log .log-content');
+    
+    console.log('Frontend Log Element:', frontendLog); // Debug
 
-  // Handle navigation with loading state
-  function handleNavigation(section) {
-      showLoading();
-      
-      // Simulate API call or page load
-      setTimeout(() => {
-          hideLoading();
-          updateContent(section);
-      }, 1000);
-  }
+    // Navigation handling
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = this.dataset.section;
+            console.log('Nav clicked:', section); // Debug
+            handleNavigation(section);
+        });
+    });
 
-  // Loading state functions
-  function showLoading() {
-      loadingIndicator.style.display = 'block';
-  }
+    // Event Logging System
+    const EventLogger = {
+        logFrontendEvent: (action, status = 'info') => {
+            console.log('Attempting to log frontend event:', action); // Debug
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${status}`;
+            entry.innerHTML = `
+                <span>${new Date().toLocaleTimeString()}</span>
+                <span>${action}</span>
+                <span>${status}</span>
+            `;
+            if (frontendLog) {
+                frontendLog.insertBefore(entry, frontendLog.firstChild);
+            } else {
+                console.error('Frontend log element not found');
+            }
+        },
 
-  function hideLoading() {
-      loadingIndicator.style.display = 'none';
-  }
+        logServiceEvent: (service, message, status = 'info') => {
+            console.log('Logging service event:', service, message); // Debug
+            const serviceLog = document.querySelector(`[data-service="${service}"] .event-log`);
+            if (serviceLog) {
+                const entry = document.createElement('div');
+                entry.className = `log-entry ${status}`;
+                entry.innerHTML = `
+                    <span>${new Date().toLocaleTimeString()}</span>
+                    <span>${message}</span>
+                    <span>${status}</span>
+                `;
+                serviceLog.insertBefore(entry, serviceLog.firstChild);
+            }
+        }
+    };
 
-  // Update content based on section
-  function updateContent(section) {
-      console.log(`Navigating to ${section}`);
-      // Here you would typically update the page content
-      // based on the selected section
-  }
+    // Handle navigation with loading state
+    function handleNavigation(section) {
+        console.log('Handling navigation:', section); // Debug
+        showLoading();
+        
+        if (section === 'Events') {
+            console.log('Triggering event simulation'); // Debug
+            simulateSignupFlow();
+        }
+        
+        setTimeout(() => {
+            hideLoading();
+            updateContent(section);
+        }, 1000);
+    }
 
-  // Responsive handling
-  let resizeTimer;
-  window.addEventListener('resize', function() {
-      // Debounce resize events
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-          // Handle any responsive adjustments here
-          console.log('Window resized - layout adjusted');
-      }, 250);
-  });
+    // Simulate signup flow
+    function simulateSignupFlow() {
+        console.log('Starting signup flow simulation'); // Debug
+        
+        // Immediately log the first event
+        EventLogger.logFrontendEvent('User initiated signup', 'info');
+        
+        const events = [
+            { time: 1000, service: 'user', message: 'Validating user data', status: 'info' },
+            { time: 2000, service: 'database', message: 'Creating user record', status: 'success' },
+            { time: 3000, service: 'communication', message: 'Sending welcome email', status: 'info' },
+            { time: 4000, type: 'frontend', message: 'Signup completed successfully', status: 'success' }
+        ];
+
+        events.forEach(event => {
+            setTimeout(() => {
+                if (event.type === 'frontend') {
+                    EventLogger.logFrontendEvent(event.message, event.status);
+                } else {
+                    EventLogger.logServiceEvent(event.service, event.message, event.status);
+                }
+            }, event.time);
+        });
+    }
+
+    function showLoading() {
+        loadingIndicator.style.display = 'block';
+    }
+
+    function hideLoading() {
+        loadingIndicator.style.display = 'none';
+    }
+
+    function updateContent(section) {
+        console.log('Updating content for section:', section);
+    }
+
+    // Initial simulation (optional)
+    // setTimeout(simulateSignupFlow, 1000);
 });
