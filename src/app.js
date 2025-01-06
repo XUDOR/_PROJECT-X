@@ -26,11 +26,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 // API Routes
 app.use('/api', mainRoutes);
 
-// Notify Project F on Startup
-(async () => {
-  await notifyProjectF('Project X: Controller is online', 'info');
-})();
-
 // Default Route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
@@ -44,4 +39,7 @@ app.use((err, req, res, next) => {
 
 app.listen(ENV.PORT, () => {
   console.log(`Project X is running on ${ENV.PROJECT_X_URL}`);
+  // Notify Project F after server is running
+  notifyProjectF('Project X: Controller is online', 'info')
+    .catch(err => console.error('Failed to notify Project F:', err.message));
 });
